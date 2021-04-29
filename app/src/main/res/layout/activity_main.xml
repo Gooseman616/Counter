@@ -22,7 +22,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="1"
+        android:text="0"
         android:textSize="80sp" />
 
     <Button
@@ -31,8 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="reset"
-        android:onClick="resetClicked"/>
+        android:text="reset" />
 
 
     <LinearLayout
@@ -48,8 +47,7 @@
             android:layout_weight="1"
             android:padding="50dp"
             app:icon="@drawable/ic_minus"
-            app:iconGravity="textStart"
-            android:onClick="minusClicked"/>
+            app:iconGravity="textStart" />
 
         <Button
             android:id="@+id/plus_button"
@@ -59,8 +57,7 @@
             android:layout_weight="1"
             android:padding="50dp"
             app:icon="@drawable/ic_plus"
-            app:iconGravity="textStart"
-            android:onClick="plusClicked"/>
+            app:iconGravity="textStart" />
 
     </LinearLayout>
 
