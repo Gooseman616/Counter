@@ -1,10 +1,11 @@
 package com.test.counter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,7 +42,7 @@ public class CounterList {
 
         @Override
         public void onBindViewHolder(@NonNull Vh holder, int position) {
-
+            holder.bind(mData.get(position));
         }
 
         @Override
@@ -51,9 +52,20 @@ public class CounterList {
 
         static class Vh extends RecyclerView.ViewHolder {
 
+            private final TextView mTitle;
+            private final TextView mValue;
+
             Vh(@NonNull ViewGroup parentGroup) {
                 super(LayoutInflater.from(parentGroup.getContext())
                         .inflate(R.layout.item_counter, parentGroup, false));
+                mTitle = itemView.findViewById(R.id.item_name);
+                mValue = itemView.findViewById(R.id.item_value);
+
+            }
+
+            void bind(Counter counter) {
+                mTitle.setText(counter.name);
+                mValue.setText(String.valueOf(counter.value));
             }
         }
     }

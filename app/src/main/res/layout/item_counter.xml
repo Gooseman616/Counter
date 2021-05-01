@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:gravity="start"
+                android:textSize="14sp"
                 tools:text="Title" />
 
 
@@ -46,11 +47,13 @@
                     android:textSize="24dp" />
 
                 <TextView
+                    android:id="@+id/item_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:textAlignment="center"
+                    android:textSize="26sp"
                     tools:text="Value" />
 
                 <Button
