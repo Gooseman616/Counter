@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:animateLayoutChanges="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?android:selectableItemBackground">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -39,6 +40,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/item_button_minus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -57,6 +59,7 @@
                     tools:text="Value" />
 
                 <Button
+                    android:id="@+id/item_button_plus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"

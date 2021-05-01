@@ -21,7 +21,7 @@ public class CounterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.a_counter);
+        setContentView(R.layout.activity_counter);
         mData = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         mCounterValueTv = findViewById(R.id.counter_value);
         updateValue(getValue());
