@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onOpen(Counter counter) {
                 startActivity(new Intent(MainActivity.this, CounterActivity.class));
-
+                Toast.makeText(MainActivity.this, "hi", Toast.LENGTH_SHORT).show();
             }
         });
         counterList.setCounters(counters);
