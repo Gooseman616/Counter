@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class CounterList {
+public class CounterListActivity {
 
     private final CounterAdapter mAdapter;
     private final Listener mListener;
 
-    public CounterList(RecyclerView counterListView, Listener listener) {
+    public CounterListActivity(RecyclerView counterListView, Listener listener) {
         mListener = listener;
         counterListView.setLayoutManager(new LinearLayoutManager(counterListView.getContext()));
         mAdapter = new CounterAdapter();
@@ -70,15 +70,9 @@ public class CounterList {
                         .inflate(R.layout.item_counter, parentGroup, false));
                 mTitle = itemView.findViewById(R.id.item_name);
                 mValue = itemView.findViewById(R.id.item_value);
-                itemView.findViewById(R.id.item_button_minus).setOnClickListener(v -> {
-                    mListener.onMinus(mData.get(getAdapterPosition()));
-                });
-                itemView.findViewById(R.id.item_button_plus).setOnClickListener(v -> {
-                    mListener.onPlus(mData.get(getAdapterPosition()));
-                });
-                itemView.setOnClickListener(v -> {
-                    mListener.onOpen(mData.get(getAdapterPosition()));
-                });
+                itemView.findViewById(R.id.item_button_minus).setOnClickListener(v -> mListener.onMinus(mData.get(getAdapterPosition())));
+                itemView.findViewById(R.id.item_button_plus).setOnClickListener(v -> mListener.onPlus(mData.get(getAdapterPosition())));
+                itemView.setOnClickListener(v -> mListener.onOpen(mData.get(getAdapterPosition())));
 
             }
 

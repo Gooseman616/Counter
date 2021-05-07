@@ -13,22 +13,23 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class CounterActivity extends AppCompatActivity {
 
-    private static final String PREF_KEY = "COUNTER_VALUE";
-    private static final String LOG_TAG = CounterActivity.class.getName();
-    private SharedPreferences mData;
+    public static final String EXTRA_ID = "EXTRA_ID";
     private TextView mCounterValueTv;
+    private long mCounterId;
+    private Counter mCounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter);
-        mData = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        mCounterId = getIntent().getLongExtra(EXTRA_ID, -1);
+        mCounter = Repository.getInstance().getCounter(mCounterId);
         mCounterValueTv = findViewById(R.id.counter_value);
-        updateValue(getValue());
-        findViewById(R.id.plus_button).setOnClickListener(v -> updateValue(getValue() + 1));
-        findViewById(R.id.minus_button).setOnClickListener(v -> updateValue(getValue() - 1));
+        updateValue(mCounter.value);
+        findViewById(R.id.plus_button).setOnClickListener(v -> updateValue(mCounter.value + 1));
+        findViewById(R.id.minus_button).setOnClickListener(v -> updateValue(mCounter.value - 1));
         findViewById(R.id.reset_button).setOnClickListener(v -> {
-            int oldCounterValue = getValue();
+            int oldCounterValue = mCounter.value;
             updateValue(0);
             Snackbar.make(v, "Counter reset", BaseTransientBottomBar.LENGTH_SHORT)
                     .setAction("Undo", ignored -> {
@@ -41,12 +42,9 @@ public class CounterActivity extends AppCompatActivity {
     }
 
     private void updateValue(int value) {
-        mData.edit().putInt(PREF_KEY, value).apply();
-        mCounterValueTv.setText(String.valueOf(value));
-    }
-
-    private int getValue() {
-        return mData.getInt(PREF_KEY, 0);
+        Repository.getInstance().setValue(mCounter, value);
+        mCounter = Repository.getInstance().getCounter(mCounterId);
+        mCounterValueTv.setText(String.valueOf(mCounter.value));
     }
 
     public void showToastMessage(CharSequence message) {
