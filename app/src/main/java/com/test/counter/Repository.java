@@ -1,12 +1,15 @@
 package com.test.counter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Repository {
 
     private static Repository sInstance;
     private final List<Counter> mList;
+    private final Set<RepoListener> mListeners = new HashSet<>();
 
     private Repository() {
         mList = generateCounterList(3);
@@ -35,10 +38,28 @@ public class Repository {
         return mList.get((int) id);
     }
 
-
     public void setValue(Counter counter, int value) {
         int index = mList.indexOf(counter);
         mList.remove(index);
         mList.add(index, new Counter(counter.id, counter.name, value));
+        notifyChanged();
+    }
+
+    private void notifyChanged() {
+        for (RepoListener listener : mListeners) {
+            listener.onDataChanged();
+        }
+    }
+
+    public void addListener(RepoListener listener) {
+        mListeners.add(listener);
+    }
+
+    public void removeListener(RepoListener listener) {
+        mListeners.remove(listener);
+    }
+
+    public interface RepoListener {
+        void onDataChanged();
     }
 }

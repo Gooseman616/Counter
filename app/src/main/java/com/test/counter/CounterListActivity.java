@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleObserver;
 
-public class CounterListActivity extends AppCompatActivity implements LifecycleObserver {
+public class CounterListActivity extends AppCompatActivity implements Repository.RepoListener {
 
     private CounterList mCounterList;
 
@@ -18,13 +17,11 @@ public class CounterListActivity extends AppCompatActivity implements LifecycleO
             @Override
             public void onPlus(Counter counter) {
                 Repository.getInstance().setValue(counter, counter.value + 1);
-                updateList();
             }
 
             @Override
             public void onMinus(Counter counter) {
                 Repository.getInstance().setValue(counter, counter.value - 1);
-                updateList();
             }
 
             @Override
@@ -34,16 +31,15 @@ public class CounterListActivity extends AppCompatActivity implements LifecycleO
             }
         });
         updateList();
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        updateList();
+        Repository.getInstance().addListener(this::updateList);
     }
 
     private void updateList() {
         mCounterList.setCounters(Repository.getInstance().getCounters());
     }
 
+    @Override
+    public void onDataChanged() {
+        updateList();
+    }
 }
