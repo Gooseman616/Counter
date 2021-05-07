@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class CounterListActivity extends AppCompatActivity implements Repository.RepoListener {
+public class CounterListActivity extends AppCompatActivity {
 
     private CounterList mCounterList;
 
@@ -38,8 +38,4 @@ public class CounterListActivity extends AppCompatActivity implements Repository
         mCounterList.setCounters(Repository.getInstance().getCounters());
     }
 
-    @Override
-    public void onDataChanged() {
-        updateList();
-    }
 }

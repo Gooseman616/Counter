@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
-public class CounterActivity extends AppCompatActivity implements Repository.RepoListener {
+public class CounterActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID = "EXTRA_ID";
     private TextView mCounterValueTv;
@@ -56,11 +56,5 @@ public class CounterActivity extends AppCompatActivity implements Repository.Rep
 
     public void showToastMessage(CharSequence message) {
         Toast.makeText(this.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-
-    @Override
-    public void onDataChanged() {
-        updateValue();
     }
 }
