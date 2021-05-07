@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 public class CounterListActivity extends AppCompatActivity {
 
@@ -12,7 +13,8 @@ public class CounterListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_counter_list);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         mCounterList = new CounterList(findViewById(R.id.counter_list), new CounterList.Listener() {
             @Override
             public void onPlus(Counter counter) {
