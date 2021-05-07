@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-public class CounterListActivity extends AppCompatActivity {
+public class CounterListActivity extends AppCompatActivity implements Repository.RepoListener {
 
     private CounterList mCounterList;
 
@@ -32,12 +32,18 @@ public class CounterListActivity extends AppCompatActivity {
                         .putExtra(CounterActivity.EXTRA_ID, counter.id));
             }
         });
-        updateList();
-        Repository.getInstance().addListener(this::updateList);
+        onDataChanged();
+        Repository.getInstance().addListener(this);
     }
 
-    private void updateList() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Repository.getInstance().removeListener(this);
+    }
+
+    @Override
+    public void onDataChanged() {
         mCounterList.setCounters(Repository.getInstance().getCounters());
     }
-
 }
