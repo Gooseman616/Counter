@@ -1,8 +1,6 @@
 package com.test.counter;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,17 +13,21 @@ public class CounterActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID = "EXTRA_ID";
     private TextView mCounterValueTv;
+    private TextView mCounterTitleTV;
     private long mCounterId;
     private Counter mCounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_counter);
         mCounterId = getIntent().getLongExtra(EXTRA_ID, -1);
         mCounter = Repository.getInstance().getCounter(mCounterId);
+
+        setContentView(R.layout.activity_counter);
         mCounterValueTv = findViewById(R.id.counter_value);
+        mCounterTitleTV = findViewById(R.id.counter_title);
         updateValue(mCounter.value);
+        mCounterTitleTV.setText(mCounter.name);
         findViewById(R.id.plus_button).setOnClickListener(v -> updateValue(mCounter.value + 1));
         findViewById(R.id.minus_button).setOnClickListener(v -> updateValue(mCounter.value - 1));
         findViewById(R.id.reset_button).setOnClickListener(v -> {
