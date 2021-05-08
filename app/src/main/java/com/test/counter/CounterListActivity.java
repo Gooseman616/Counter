@@ -15,15 +15,16 @@ public class CounterListActivity extends AppCompatActivity implements Repository
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_list);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
         mCounterList = new CounterList(findViewById(R.id.counter_list), new CounterList.Listener() {
             @Override
             public void onPlus(Counter counter) {
-                Repository.getInstance().setValue(counter, counter.value + 1);
+                Repository.getInstance(CounterListActivity.this).setValue(counter, counter.value + 1);
             }
 
             @Override
             public void onMinus(Counter counter) {
-                Repository.getInstance().setValue(counter, counter.value - 1);
+                Repository.getInstance(CounterListActivity.this).setValue(counter, counter.value - 1);
             }
 
             @Override
@@ -33,17 +34,17 @@ public class CounterListActivity extends AppCompatActivity implements Repository
             }
         });
         onDataChanged();
-        Repository.getInstance().addListener(this);
+        Repository.getInstance(this).addListener(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Repository.getInstance().removeListener(this);
+        Repository.getInstance(this).removeListener(this);
     }
 
     @Override
     public void onDataChanged() {
-        mCounterList.setCounters(Repository.getInstance().getCounters());
+        mCounterList.setCounters(Repository.getInstance(this).getCounters());
     }
 }

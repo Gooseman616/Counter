@@ -1,47 +1,111 @@
 package com.test.counter;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Repository {
+public class Repository extends SQLiteOpenHelper {
+
+    //DB initialisation
+    public static final String DB_NAME = "Counter_db";
+    public static final int VERSION = 1;
+    public static final String TABLE_NAME = "Counters";
+    public static final String ID = "id";
+    public static final String VAL = "val";
+    public static final String NAME = "name";
+    public static final String CREATE_TABLE_COUNTERS =
+            "CREATE TABLE " + TABLE_NAME + " (" +
+                    ID + " INTEGER PRIMARY KEY, " +
+                    VAL + " INTEGER NOT NULL, " +
+                    NAME + " TEXT NOT NULL" +
+                    ");";
+    //DB initialisation end
 
     private static Repository sInstance;
-    private final List<Counter> mList;
     private final Set<RepoListener> mListeners = new HashSet<>();
 
-    private Repository() {
-        mList = generateCounterList(100);
+    private Repository(Context context) {
+        super(context, DB_NAME, null, VERSION);
+
     }
 
-    public static Repository getInstance() {
+    public static Repository getInstance(Context context) {
         if (sInstance == null) {
-            sInstance = new Repository();
+            sInstance = new Repository(context.getApplicationContext());
         }
         return sInstance;
     }
 
-    public List<Counter> getCounters() {
-        return mList;
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CREATE_TABLE_COUNTERS);
+        generateCounterList(10, db);
     }
 
-    private List<Counter> generateCounterList(int ammount) {
-        List<Counter> counters = new ArrayList<>(ammount);
-        for (int i = 0; i < ammount; i++) {
-            counters.add(new Counter(i, ("Counter " + (i + 1)), 0));
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
+    }
+
+    public List<Counter> getCounters() {
+        String[] cols = {ID, VAL, NAME};
+        Cursor cursor = getReadableDatabase().query(TABLE_NAME, cols,
+                null,
+                null,
+                null,
+                null,
+                null);
+        List<Counter> list = new ArrayList<>(cursor.getColumnCount());
+        while (cursor.moveToNext()) {
+            long id = cursor.getLong(0);
+            int value = cursor.getInt(1);
+            String name = cursor.getString(2);
+            list.add(new Counter(id, name, value));
         }
-        return counters;
+        cursor.close();
+        return list;
+    }
+
+    private void generateCounterList(int ammount, SQLiteDatabase db) {
+        for (int i = 0; i < ammount; i++) {
+            ContentValues cv = new ContentValues();
+            cv.put(VAL, 0);
+            cv.put(NAME, "Counter " + (i + 1));
+            db.insert(TABLE_NAME, null, cv);
+        }
     }
 
     public Counter getCounter(long id) {
-        return mList.get((int) id);
+        String[] cols = {ID, VAL, NAME};
+        Cursor cursor = getReadableDatabase().query(TABLE_NAME,
+                cols,
+                ID + " = " + id,
+                null,
+                null,
+                null,
+                null);
+        if (cursor.moveToFirst()) {
+            Counter counter = new Counter(cursor.getLong(0), cursor.getString(2), cursor.getInt(1));
+            cursor.close();
+            return counter;
+        } else {
+            throw new SQLiteException("Counter with id: " + ID + " does not exist.");
+        }
     }
 
     public void setValue(Counter counter, int value) {
-        int index = mList.indexOf(counter);
-        mList.remove(index);
-        mList.add(index, new Counter(counter.id, counter.name, value));
+        ContentValues cv = new ContentValues();
+        cv.put(VAL, value);
+        getWritableDatabase().update(TABLE_NAME, cv, ID + " = " + counter.id, null);
         notifyChanged();
     }
 
