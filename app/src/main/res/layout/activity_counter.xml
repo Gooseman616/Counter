@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="10dp"
-        android:text="Counter"
-        android:textSize="18sp" />
+        tools:text="Counter"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <TextView
         android:id="@+id/counter_value"
@@ -22,42 +21,46 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="1"
-        android:textSize="80sp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+        tools:text="1" />
 
     <Button
         android:id="@+id/reset_button"
+        style="?borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="reset" />
+        android:text="@string/reset" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:layout_marginHorizontal="13dp"
         android:orientation="horizontal">
 
         <Button
+            style="?borderlessButtonStyle"
             android:id="@+id/minus_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_marginVertical="7dp"
             android:layout_weight="1"
-            android:padding="50dp"
-            app:icon="@drawable/ic_minus"
-            app:iconGravity="textStart" />
+            android:text="@string/minus_sign"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            tools:ignore="ButtonStyle" />
 
         <Button
+            style="?borderlessButtonStyle"
             android:id="@+id/plus_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_marginVertical="7dp"
             android:layout_weight="1"
-            android:padding="50dp"
-            app:icon="@drawable/ic_plus"
-            app:iconGravity="textStart" />
+            android:text="@string/plus_sign"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            tools:ignore="ButtonStyle" />
 
     </LinearLayout>
 

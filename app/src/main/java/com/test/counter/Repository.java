@@ -12,7 +12,7 @@ public class Repository {
     private final Set<RepoListener> mListeners = new HashSet<>();
 
     private Repository() {
-        mList = generateCounterList(3);
+        mList = generateCounterList(100);
     }
 
     public static Repository getInstance() {

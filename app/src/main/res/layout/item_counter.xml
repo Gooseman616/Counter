@@ -6,16 +6,20 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:animateLayoutChanges="true"
-    android:orientation="vertical"
-    android:background="?android:selectableItemBackground">
+    android:background="?android:selectableItemBackground"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
+        style="@style/card_view_style"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:animateLayoutChanges="true"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="3dp"
         app:cardUseCompatPadding="true"
-        app:contentPadding="7dp">
+        app:contentPadding="6dp">
 
 
         <LinearLayout
@@ -27,9 +31,10 @@
                 android:id="@+id/item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginLeft="3dp"
                 android:gravity="start"
-                android:textSize="14sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="Title" />
 
 
@@ -37,16 +42,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:clipToPadding="false"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/item_button_minus"
+                    style="?borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:padding="5dp"
-                    android:text="-"
-                    android:textSize="24dp" />
+                    android:text="@string/minus_sign"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
                 <TextView
                     android:id="@+id/item_value"
@@ -55,20 +60,18 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:textAlignment="center"
-                    android:textSize="26sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    tools:targetApi="lollipop"
                     tools:text="Value" />
 
                 <Button
                     android:id="@+id/item_button_plus"
+                    style="?borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:padding="5dp"
-                    android:text="+"
-                    android:textSize="24dp" />
+                    android:text="@string/plus_sign"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-
 </LinearLayout>
