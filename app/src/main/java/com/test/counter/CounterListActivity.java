@@ -14,7 +14,7 @@ public class CounterListActivity extends AppCompatActivity implements Repository
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_list);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         mCounterList = new CounterList(findViewById(R.id.counter_list), new CounterList.Listener() {
             @Override
