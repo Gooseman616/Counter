@@ -17,4 +17,7 @@
     <style name="card_view_style">
         <item name="cardBackgroundColor">@color/white_light</item>
     </style>
+    <style name="toolbar_style">
+        <item name="android:colorBackground">@color/white_light</item>
+    </style>
 </resources>

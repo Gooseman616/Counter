@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".CounterActivity">
+
+    <ImageView
+        android:id="@+id/counter_back_button"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="?selectableItemBackground"
+        android:padding="16dp"
+        app:srcCompat="?homeAsUpIndicator"
+        app:tint="?colorPrimary"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/counter_title"
@@ -12,8 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="10dp"
-        tools:text="Counter"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        tools:text="Counter" />
 
     <TextView
         android:id="@+id/counter_value"
@@ -37,26 +48,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginHorizontal="13dp"
+        android:layout_marginHorizontal="12dp"
         android:orientation="horizontal">
 
         <Button
-            style="?borderlessButtonStyle"
             android:id="@+id/minus_button"
+            style="?borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="7dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
             android:layout_weight="1"
             android:text="@string/minus_sign"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             tools:ignore="ButtonStyle" />
 
         <Button
-            style="?borderlessButtonStyle"
             android:id="@+id/plus_button"
+            style="?borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="7dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
             android:layout_weight="1"
             android:text="@string/plus_sign"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
