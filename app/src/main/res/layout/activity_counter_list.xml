@@ -14,11 +14,10 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/counter_list_toolbar"
-            style="@style/toolbar_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?android:colorBackground"
-            app:title="@string/app_name" />
+            app:menu="@menu/counter_list_menu" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -27,5 +26,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        tools:listitem="@layout/item_counter"/>
+        tools:listitem="@layout/item_counter" />
 </LinearLayout>

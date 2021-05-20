@@ -47,7 +47,7 @@ public class Repository extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_COUNTERS);
-        generateCounterList(10, db);
+//        generateCounterList(10, db);
     }
 
     @Override
@@ -75,13 +75,22 @@ public class Repository extends SQLiteOpenHelper {
         return list;
     }
 
-    private void generateCounterList(int ammount, SQLiteDatabase db) {
-        for (int i = 0; i < ammount; i++) {
+    private void generateCounterList(int amount, SQLiteDatabase db) {
+        for (int i = 0; i < amount; i++) {
             ContentValues cv = new ContentValues();
             cv.put(VAL, 0);
             cv.put(NAME, "Counter " + (i + 1));
             db.insert(TABLE_NAME, null, cv);
         }
+    }
+
+    public void addCounter(String name) {
+        ContentValues cv = new ContentValues();
+        cv.put(VAL, 0);
+        cv.put(NAME, name);
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert(TABLE_NAME, null, cv);
+        notifyChanged();
     }
 
     public Counter getCounter(long id) {

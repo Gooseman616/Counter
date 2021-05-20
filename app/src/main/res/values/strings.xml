@@ -3,4 +3,6 @@
     <string name="minus_sign">−</string>
     <string name="plus_sign">+</string>
     <string name="reset">reset</string>
+    <string name="add_counter">Add Counter</string>
+    <string name="title">Title</string>
 </resources>

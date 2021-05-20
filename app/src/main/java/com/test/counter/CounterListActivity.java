@@ -2,10 +2,10 @@ package com.test.counter;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 
 public class CounterListActivity extends AppCompatActivity implements Repository.RepoListener {
 
@@ -15,9 +15,15 @@ public class CounterListActivity extends AppCompatActivity implements Repository
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_list);
-//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         Toolbar toolbar = findViewById(R.id.counter_list_toolbar);
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.m_add_counter) {
+                new CreateDialog().show(getSupportFragmentManager(), null);
+            }
+            return true;
+        });
 
         mCounterList = new CounterList(findViewById(R.id.counter_list), new CounterList.Listener() {
             @Override
