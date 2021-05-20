@@ -26,7 +26,7 @@ public class CounterActivity extends AppCompatActivity implements Repository.Rep
         findViewById(R.id.counter_back_button).setOnClickListener(v -> finish());
         findViewById(R.id.counter_remove_button).setOnClickListener(v -> {
             MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
-            dialog.setTitle("Delete " + getCounter().name + "?");
+            dialog.setMessage("Delete " + getCounter().name + "?");
             dialog.setNegativeButton("Cancel", (d, which) -> d.dismiss());
             dialog.setPositiveButton("Ok", (d, which) ->
             {

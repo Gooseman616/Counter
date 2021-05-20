@@ -29,14 +29,14 @@ public class CreateDialog extends AppCompatDialogFragment {
         builder.setTitle(R.string.add_counter);
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton("Add", (dialog, which) -> {
-            String name = ((EditText) addDialog.findViewById(R.id.textinput_counter_name))
+            String inputName = ((EditText) addDialog.findViewById(R.id.textinput_counter_name))
                     .getText()
                     .toString();
-            if (name.equals("")) {
-                name = "Untitled";
+            if (inputName.equals("")) {
+                inputName = "Untitled";
             }
-            Repository.getInstance(getContext()).addCounter(name);
-            Toast.makeText(getContext(), String.format("%s added", name), Toast.LENGTH_SHORT).show();
+            Repository.getInstance(getContext()).addCounter(inputName);
+            Toast.makeText(getContext(), String.format("%s added", inputName), Toast.LENGTH_SHORT).show();
         });
         builder.setView(addDialog);
         Dialog dialog = builder.create();
