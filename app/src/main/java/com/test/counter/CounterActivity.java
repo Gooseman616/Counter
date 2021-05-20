@@ -28,7 +28,7 @@ public class CounterActivity extends AppCompatActivity implements Repository.Rep
             MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
             dialog.setMessage("Delete " + getCounter().name + "?");
             dialog.setNegativeButton("Cancel", (d, which) -> d.dismiss());
-            dialog.setPositiveButton("Ok", (d, which) ->
+            dialog.setPositiveButton("Delete", (d, which) ->
             {
                 Toast.makeText(getApplicationContext(), String.format("%s deleted", getCounter().name), Toast.LENGTH_SHORT).show();
                 Repository.getInstance(this).removeCounter(mCounterId);
