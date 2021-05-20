@@ -2,6 +2,7 @@ package com.test.counter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -15,6 +16,8 @@ public class CounterListActivity extends AppCompatActivity implements Repository
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_list);
 //        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        Toolbar toolbar = findViewById(R.id.counter_list_toolbar);
 
         mCounterList = new CounterList(findViewById(R.id.counter_list), new CounterList.Listener() {
             @Override
