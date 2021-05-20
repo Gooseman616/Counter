@@ -16,7 +16,6 @@ public class CounterListActivity extends AppCompatActivity implements Repository
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_list);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
         Toolbar toolbar = findViewById(R.id.counter_list_toolbar);
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.m_add_counter) {
@@ -28,18 +27,18 @@ public class CounterListActivity extends AppCompatActivity implements Repository
         mCounterList = new CounterList(findViewById(R.id.counter_list), new CounterList.Listener() {
             @Override
             public void onPlus(Counter counter) {
-                Repository.getInstance(CounterListActivity.this).setValue(counter, counter.value + 1);
+                    Repository.getInstance(CounterListActivity.this).setValue(counter, counter.value + 1);
             }
 
             @Override
             public void onMinus(Counter counter) {
-                Repository.getInstance(CounterListActivity.this).setValue(counter, counter.value - 1);
+                    Repository.getInstance(CounterListActivity.this).setValue(counter, counter.value - 1);
             }
 
             @Override
             public void onOpen(Counter counter) {
-                startActivity(new Intent(CounterListActivity.this, CounterActivity.class)
-                        .putExtra(CounterActivity.EXTRA_ID, counter.id));
+                    startActivity(new Intent(CounterListActivity.this, CounterActivity.class)
+                            .putExtra(CounterActivity.EXTRA_ID, counter.id));
             }
         });
         onDataChanged();

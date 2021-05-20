@@ -7,15 +7,39 @@
     android:orientation="vertical"
     tools:context=".CounterActivity">
 
-    <ImageView
-        android:id="@+id/counter_back_button"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:background="?selectableItemBackground"
-        android:padding="16dp"
-        app:srcCompat="?homeAsUpIndicator"
-        app:tint="?colorPrimary"
-        tools:ignore="ContentDescription" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/counter_back_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="?selectableItemBackground"
+            android:padding="16dp"
+            app:srcCompat="?homeAsUpIndicator"
+            app:tint="?colorPrimary"
+            tools:ignore="ContentDescription" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="false"/>
+
+        <ImageView
+            android:id="@+id/counter_remove_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="?selectableItemBackground"
+            android:padding="16dp"
+            app:srcCompat="@drawable/ic_delete"
+            app:tint="?colorPrimary"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/counter_title"
@@ -69,6 +93,7 @@
             style="?borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginVertical="7dp"
             android:layout_marginStart="6dp"
             android:layout_marginLeft="6dp"

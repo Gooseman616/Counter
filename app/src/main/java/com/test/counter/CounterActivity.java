@@ -22,6 +22,9 @@ public class CounterActivity extends AppCompatActivity implements Repository.Rep
         getCounter();
         setContentView(R.layout.activity_counter);
         findViewById(R.id.counter_back_button).setOnClickListener(v -> finish());
+        findViewById(R.id.counter_remove_button).setOnClickListener(v -> {
+            Repository.getInstance(this).removeCounter(mCounterId);
+        });
         mCounterValueTv = findViewById(R.id.counter_value);
         mCounterTitleTV = findViewById(R.id.counter_title);
         findViewById(R.id.plus_button).setOnClickListener(v -> changeValue(getCounter().value + 1));
@@ -54,7 +57,11 @@ public class CounterActivity extends AppCompatActivity implements Repository.Rep
     @Override
     public void onDataChanged() {
         Counter counter = getCounter();
-        mCounterValueTv.setText(String.valueOf(counter.value));
-        mCounterTitleTV.setText(counter.name);
+        if (counter != null) {
+            mCounterValueTv.setText(String.valueOf(counter.value));
+            mCounterTitleTV.setText(counter.name);
+        } else {
+            finish();
+        }
     }
 }

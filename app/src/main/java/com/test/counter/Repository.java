@@ -4,16 +4,17 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Repository extends SQLiteOpenHelper {
 
+public class Repository extends SQLiteOpenHelper {
     //DB initialisation
     public static final String DB_NAME = "Counter_db";
     public static final int VERSION = 1;
@@ -22,14 +23,13 @@ public class Repository extends SQLiteOpenHelper {
     public static final String VAL = "val";
     public static final String NAME = "name";
     public static final String CREATE_TABLE_COUNTERS =
-            "CREATE TABLE " + TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                     ID + " INTEGER PRIMARY KEY, " +
                     VAL + " INTEGER NOT NULL, " +
                     NAME + " TEXT NOT NULL" +
                     ");";
-    //DB initialisation end
-
     private static Repository sInstance;
+    //DB initialisation end
     private final Set<RepoListener> mListeners = new HashSet<>();
 
     private Repository(Context context) {
@@ -56,6 +56,10 @@ public class Repository extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void verifyDBIntegrity() {
+        onCreate(getWritableDatabase());
+    }
+
     public List<Counter> getCounters() {
         String[] cols = {ID, VAL, NAME};
         Cursor cursor = getReadableDatabase().query(TABLE_NAME, cols,
@@ -75,15 +79,6 @@ public class Repository extends SQLiteOpenHelper {
         return list;
     }
 
-    private void generateCounterList(int amount, SQLiteDatabase db) {
-        for (int i = 0; i < amount; i++) {
-            ContentValues cv = new ContentValues();
-            cv.put(VAL, 0);
-            cv.put(NAME, "Counter " + (i + 1));
-            db.insert(TABLE_NAME, null, cv);
-        }
-    }
-
     public void addCounter(String name) {
         ContentValues cv = new ContentValues();
         cv.put(VAL, 0);
@@ -93,22 +88,35 @@ public class Repository extends SQLiteOpenHelper {
         notifyChanged();
     }
 
+    public void removeCounter(long counterId) {
+        getWritableDatabase().delete(TABLE_NAME, ID + " = " + counterId, null);
+        notifyChanged();
+    }
+
+    //    private void generateCounterList(int amount, SQLiteDatabase db) {
+//        for (int i = 0; i < amount; i++) {
+//            ContentValues cv = new ContentValues();
+//            cv.put(VAL, 0);
+//            cv.put(NAME, "Counter " + (i + 1));
+//            db.insert(TABLE_NAME, null, cv);
+//        }
+//    }
+
+    @Nullable
     public Counter getCounter(long id) {
         String[] cols = {ID, VAL, NAME};
-        Cursor cursor = getReadableDatabase().query(TABLE_NAME,
+        try (Cursor cursor = getReadableDatabase().query(TABLE_NAME,
                 cols,
                 ID + " = " + id,
                 null,
                 null,
                 null,
-                null);
-        if (cursor.moveToFirst()) {
-            Counter counter = new Counter(cursor.getLong(0), cursor.getString(2), cursor.getInt(1));
-            cursor.close();
-            return counter;
-        } else {
-            throw new SQLiteException("Counter with id: " + ID + " does not exist.");
+                null)) {
+            if (cursor.moveToFirst()) {
+                return new Counter(cursor.getLong(0), cursor.getString(2), cursor.getInt(1));
+            }
         }
+        return null;
     }
 
     public void setValue(Counter counter, int value) {
@@ -117,6 +125,8 @@ public class Repository extends SQLiteOpenHelper {
         getWritableDatabase().update(TABLE_NAME, cv, ID + " = " + counter.id, null);
         notifyChanged();
     }
+
+//            throw new SQLiteException("Counter with id: " + ID + " does not exist.");
 
     private void notifyChanged() {
         for (RepoListener listener : mListeners) {
@@ -131,6 +141,7 @@ public class Repository extends SQLiteOpenHelper {
     public void removeListener(RepoListener listener) {
         mListeners.remove(listener);
     }
+
 
     public interface RepoListener {
         void onDataChanged();
