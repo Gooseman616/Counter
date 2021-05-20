@@ -2,9 +2,11 @@ package com.test.counter;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -23,7 +25,16 @@ public class CounterActivity extends AppCompatActivity implements Repository.Rep
         setContentView(R.layout.activity_counter);
         findViewById(R.id.counter_back_button).setOnClickListener(v -> finish());
         findViewById(R.id.counter_remove_button).setOnClickListener(v -> {
-            Repository.getInstance(this).removeCounter(mCounterId);
+            MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
+            dialog.setTitle("Delete " + getCounter().name + "?");
+            dialog.setNegativeButton("Cancel", (d, which) -> d.dismiss());
+            dialog.setPositiveButton("Ok", (d, which) ->
+            {
+                Toast.makeText(getApplicationContext(), String.format("%s deleted", getCounter().name), Toast.LENGTH_SHORT).show();
+                Repository.getInstance(this).removeCounter(mCounterId);
+            });
+            dialog.create();
+            dialog.show();
         });
         mCounterValueTv = findViewById(R.id.counter_value);
         mCounterTitleTV = findViewById(R.id.counter_title);

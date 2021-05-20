@@ -11,7 +11,7 @@
         android:layout_margin="16dp"
         android:hint="@string/title"
         android:importantForAutofill="no"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:inputType="text" />
+        android:inputType="textCapSentences"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
 </LinearLayout>
