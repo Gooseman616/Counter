@@ -24,11 +24,14 @@ public class CounterActivity extends AppCompatActivity implements Repository.Rep
         getCounter();
         setContentView(R.layout.activity_counter);
         findViewById(R.id.counter_back_button).setOnClickListener(v -> finish());
+        findViewById(R.id.counter_edit_button).setOnClickListener(v -> {
+            EditDialog.create(mCounterId).show(getSupportFragmentManager(), null);
+        });
         findViewById(R.id.counter_remove_button).setOnClickListener(v -> {
             MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
-            dialog.setMessage("Delete " + getCounter().name + "?");
-            dialog.setNegativeButton("Cancel", (d, which) -> d.dismiss());
-            dialog.setPositiveButton("Delete", (d, which) ->
+            dialog.setMessage(getString(R.string.delete) + " " + getCounter().name + "?");
+            dialog.setNegativeButton(getString(R.string.cancel), (d, which) -> d.dismiss());
+            dialog.setPositiveButton(getString(R.string.delete), (d, which) ->
             {
                 Toast.makeText(getApplicationContext(), String.format("%s deleted", getCounter().name), Toast.LENGTH_SHORT).show();
                 Repository.getInstance(this).removeCounter(mCounterId);
@@ -43,7 +46,7 @@ public class CounterActivity extends AppCompatActivity implements Repository.Rep
         findViewById(R.id.reset_button).setOnClickListener(v -> {
             int oldCounterValue = getCounter().value;
             changeValue(0);
-            Snackbar.make(v, "Counter reset", BaseTransientBottomBar.LENGTH_SHORT)
+            Snackbar.make(v, "Counter " + getString(R.string.reset), BaseTransientBottomBar.LENGTH_SHORT)
                     .setAction("Undo", ignored -> changeValue(oldCounterValue))
                     .show();
         });

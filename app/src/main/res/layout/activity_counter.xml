@@ -26,7 +26,18 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:clickable="false"/>
+            android:clickable="false"
+            android:focusable="false"/>
+
+        <ImageView
+            android:id="@+id/counter_edit_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="?selectableItemBackground"
+            android:padding="16dp"
+            app:srcCompat="@drawable/ic_edit"
+            app:tint="?colorPrimary"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/counter_remove_button"

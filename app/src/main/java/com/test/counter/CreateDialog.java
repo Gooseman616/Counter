@@ -27,13 +27,13 @@ public class CreateDialog extends AppCompatDialogFragment {
 
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle(R.string.add_counter);
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-        builder.setPositiveButton("Add", (dialog, which) -> {
+        builder.setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss());
+        builder.setPositiveButton(getString(R.string.add), (dialog, which) -> {
             String inputName = ((EditText) addDialog.findViewById(R.id.textinput_counter_name))
                     .getText()
                     .toString();
-            if (inputName.equals("")) {
-                inputName = "Untitled";
+            if (inputName.isEmpty()) {
+                inputName = getString(R.string.default_counter_name);
             }
             Repository.getInstance(getContext()).addCounter(inputName);
             Toast.makeText(getContext(), String.format("%s added", inputName), Toast.LENGTH_SHORT).show();

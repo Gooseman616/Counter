@@ -1,8 +1,14 @@
 <resources>
-    <string name="app_name">Counter</string>
-    <string name="minus_sign">−</string>
-    <string name="plus_sign">+</string>
-    <string name="reset">reset</string>
+    <string name="app_name" translatable="false">Counter</string>
+    <string name="minus_sign" translatable="false">−</string>
+    <string name="plus_sign" translatable="false">+</string>
     <string name="add_counter">Add Counter</string>
+    <string name="edit_counter">Edit Counter</string>
+    <string name="default_counter_name">Untitled</string>
     <string name="title">Title</string>
+    <string name="save">Save</string>
+    <string name="reset">Reset</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
 </resources>

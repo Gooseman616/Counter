@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_counter">Добавить Счётчик</string>
+    <string name="edit_counter">Редактировать счётчик</string>
+    <string name="default_counter_name">Безымянный</string>
+    <string name="title">Название</string>
+    <string name="save">Сохранить</string>
+    <string name="reset">Сброс</string>
+    <string name="cancel">Отмена</string>
+    <string name="add">Добавить</string>
+    <string name="delete">Удалить</string>
+</resources>
