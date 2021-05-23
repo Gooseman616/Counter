@@ -21,6 +21,15 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/placeholder_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/placeholder_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/counter_list"
         android:layout_width="match_parent"

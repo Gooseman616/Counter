@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -19,11 +20,12 @@ public class CounterListActivity extends AppCompatActivity implements Repository
     private static final int DEFAULT_APP_NIGHT_MODE = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
     private CounterList mCounterList;
     private SharedPreferences mPrefs;
+    private static UiModeManager oUiModeManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        UiModeManager oUiModeManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
+        oUiModeManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(mPrefs.getInt(APP_NIGHT_MODE, DEFAULT_APP_NIGHT_MODE));
         Log.d("Day/Night", "onCreate: System Night Mode " + oUiModeManager.getNightMode());
@@ -32,48 +34,20 @@ public class CounterListActivity extends AppCompatActivity implements Repository
 
         Toolbar toolbar = findViewById(R.id.counter_list_toolbar);
         MenuItem nightSwitch = toolbar.getMenu().findItem(R.id.m_night_switch);
-        toolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.m_add_counter) {
-                new AddDialog().show(getSupportFragmentManager(), null);
-            }
-            if (item == nightSwitch) {
-                switch (AppCompatDelegate.getDefaultNightMode()) {
-                    //noinspection deprecation
-                    case AppCompatDelegate.MODE_NIGHT_AUTO_TIME:
-                    case AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY:
-                    case AppCompatDelegate.MODE_NIGHT_UNSPECIFIED:
-                    case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
-                        Log.d("Day/Night", "onSwitchClick: case follow System or else");
-                        if (oUiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_NO) {
-                            Log.d("Day/Night", "onSwitchClick: System Day (Switch to force Night)");
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                            mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_YES).apply();
-                        } else {
-                            Log.d("Day/Night", "onSwitchClick: System Night (Switch to force day)");
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_NO).apply();
-                        }
-                        break;
-                    case AppCompatDelegate.MODE_NIGHT_NO:
-                        Log.d("Day/Night", "onSwitchClick: case Day (Switch to Night)");
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_YES).apply();
-                        break;
-                    case AppCompatDelegate.MODE_NIGHT_YES:
-                        Log.d("Day/Night", "onSwitchClick: case Night (Switch to Day)");
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_NO).apply();
-                        break;
-                }
-                Log.d("Day/Night", "--------------------------");
-            }
-            return true;
-        });
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             nightSwitch.setIcon(R.drawable.ic_night);
         } else {
             nightSwitch.setIcon(R.drawable.ic_sun);
         }
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.m_add_counter) {
+                new AddDialog().show(getSupportFragmentManager(), null);
+            }
+            if (item == nightSwitch) {
+                switchDayNight();
+            }
+            return true;
+        });
 
         mCounterList = new CounterList(findViewById(R.id.counter_list), new CounterList.Listener() {
             @Override
@@ -104,6 +78,43 @@ public class CounterListActivity extends AppCompatActivity implements Repository
 
     @Override
     public void onDataChanged() {
+        if (Repository.getInstance(this).getCounters().isEmpty()) {
+            findViewById(R.id.placeholder_text).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.placeholder_text).setVisibility(View.GONE);
+        }
         mCounterList.setCounters(Repository.getInstance(this).getCounters());
+    }
+
+    private void switchDayNight() {
+        switch (AppCompatDelegate.getDefaultNightMode()) {
+            //noinspection deprecation
+            case AppCompatDelegate.MODE_NIGHT_AUTO_TIME:
+            case AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY:
+            case AppCompatDelegate.MODE_NIGHT_UNSPECIFIED:
+            case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
+                Log.d("Day/Night", "onSwitchClick: case follow System or else");
+                if (oUiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_NO) {
+                    Log.d("Day/Night", "onSwitchClick: System Day (Switch to force Night)");
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_YES).apply();
+                } else {
+                    Log.d("Day/Night", "onSwitchClick: System Night (Switch to force day)");
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_NO).apply();
+                }
+                break;
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                Log.d("Day/Night", "onSwitchClick: case Day (Switch to Night)");
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_YES).apply();
+                break;
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                Log.d("Day/Night", "onSwitchClick: case Night (Switch to Day)");
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_NO).apply();
+                break;
+        }
+        Log.d("Day/Night", "--------------------------");
     }
 }

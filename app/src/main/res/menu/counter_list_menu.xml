@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/m_night_switch"
-        android:icon="@drawable/ic_minus"
         android:title="@string/day_night"
         app:showAsAction="ifRoom"
         />
