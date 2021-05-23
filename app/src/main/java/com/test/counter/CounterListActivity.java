@@ -3,7 +3,9 @@ package com.test.counter;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -13,15 +15,21 @@ import androidx.appcompat.widget.Toolbar;
 
 public class CounterListActivity extends AppCompatActivity implements Repository.RepoListener {
 
+    private static final String APP_NIGHT_MODE = "DAY_NIGHT";
+    private static final int DEFAULT_APP_NIGHT_MODE = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
     private CounterList mCounterList;
-//    private boolean night;
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_counter_list);
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         UiModeManager oUiModeManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
-        Log.d("Day/Night", "onCreate: " + oUiModeManager.getNightMode());
+        super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(mPrefs.getInt(APP_NIGHT_MODE, DEFAULT_APP_NIGHT_MODE));
+        Log.d("Day/Night", "onCreate: System Night Mode " + oUiModeManager.getNightMode());
+        Log.d("Day/Night", "onCreate: Night Mode " + AppCompatDelegate.getDefaultNightMode());
+        setContentView(R.layout.activity_counter_list);
+
         Toolbar toolbar = findViewById(R.id.counter_list_toolbar);
         MenuItem nightSwitch = toolbar.getMenu().findItem(R.id.m_night_switch);
         toolbar.setOnMenuItemClickListener(item -> {
@@ -35,20 +43,29 @@ public class CounterListActivity extends AppCompatActivity implements Repository
                     case AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY:
                     case AppCompatDelegate.MODE_NIGHT_UNSPECIFIED:
                     case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
+                        Log.d("Day/Night", "onSwitchClick: case follow System or else");
                         if (oUiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_NO) {
+                            Log.d("Day/Night", "onSwitchClick: System Day (Switch to force Night)");
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        } else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            Log.d("Switch", "onCreate: case System or else");
+                            mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_YES).apply();
+                        } else {
+                            Log.d("Day/Night", "onSwitchClick: System Night (Switch to force day)");
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_NO).apply();
+                        }
                         break;
                     case AppCompatDelegate.MODE_NIGHT_NO:
+                        Log.d("Day/Night", "onSwitchClick: case Day (Switch to Night)");
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        Log.d("Switch", "onCreate: case no");
+                        mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_YES).apply();
                         break;
                     case AppCompatDelegate.MODE_NIGHT_YES:
-                        Log.d("Switch", "onCreate: case yes");
+                        Log.d("Day/Night", "onSwitchClick: case Night (Switch to Day)");
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        mPrefs.edit().putInt(APP_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_NO).apply();
                         break;
                 }
+                Log.d("Day/Night", "--------------------------");
             }
             return true;
         });
