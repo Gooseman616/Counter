@@ -16,8 +16,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class EditDialog extends AppCompatDialogFragment {
 
     public static final String ARG_ID = "ARG_ID";
@@ -42,6 +40,7 @@ public class EditDialog extends AppCompatDialogFragment {
         String currentName = repository.getCounter(counterId).name;
         editText.setText(currentName);
         editText.setSelection(currentName.length());
+        editText.requestFocus();
 
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle(getString(R.string.edit_counter));

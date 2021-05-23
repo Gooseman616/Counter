@@ -23,10 +23,13 @@ public class CounterActivity extends AppCompatActivity implements Repository.Rep
         mCounterId = getIntent().getLongExtra(EXTRA_ID, -1);
         getCounter();
         setContentView(R.layout.activity_counter);
+
+        mCounterValueTv = findViewById(R.id.counter_value);
+        mCounterTitleTV = findViewById(R.id.counter_title);
         findViewById(R.id.counter_back_button).setOnClickListener(v -> finish());
-        findViewById(R.id.counter_edit_button).setOnClickListener(v -> {
-            EditDialog.create(mCounterId).show(getSupportFragmentManager(), null);
-        });
+        mCounterTitleTV.setOnClickListener(v -> EditDialog.create(mCounterId).show(getSupportFragmentManager(), null));
+        findViewById(R.id.counter_edit_button).setOnClickListener(v -> EditDialog.create(mCounterId).show(getSupportFragmentManager(), null));
+
         findViewById(R.id.counter_remove_button).setOnClickListener(v -> {
             MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
             dialog.setMessage(getString(R.string.delete) + " " + getCounter().name + "?");
@@ -39,8 +42,6 @@ public class CounterActivity extends AppCompatActivity implements Repository.Rep
             dialog.create();
             dialog.show();
         });
-        mCounterValueTv = findViewById(R.id.counter_value);
-        mCounterTitleTV = findViewById(R.id.counter_title);
         findViewById(R.id.plus_button).setOnClickListener(v -> changeValue(getCounter().value + 1));
         findViewById(R.id.minus_button).setOnClickListener(v -> changeValue(getCounter().value - 1));
         findViewById(R.id.reset_button).setOnClickListener(v -> {
