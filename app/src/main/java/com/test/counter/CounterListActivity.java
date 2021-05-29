@@ -35,9 +35,9 @@ public class CounterListActivity extends AppCompatActivity implements Repository
         Toolbar toolbar = findViewById(R.id.counter_list_toolbar);
         MenuItem nightSwitch = toolbar.getMenu().findItem(R.id.m_night_switch);
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            nightSwitch.setIcon(R.drawable.ic_night);
-        } else {
             nightSwitch.setIcon(R.drawable.ic_sun);
+        } else {
+            nightSwitch.setIcon(R.drawable.ic_night);
         }
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.m_add_counter) {
@@ -80,6 +80,7 @@ public class CounterListActivity extends AppCompatActivity implements Repository
     public void onDataChanged() {
         if (Repository.getInstance(this).getCounters().isEmpty()) {
             findViewById(R.id.placeholder_text).setVisibility(View.VISIBLE);
+            findViewById(R.id.placeholder_text).setOnClickListener(v -> new AddDialog().show(getSupportFragmentManager(), null));
         } else {
             findViewById(R.id.placeholder_text).setVisibility(View.GONE);
         }

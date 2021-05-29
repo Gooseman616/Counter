@@ -103,7 +103,7 @@ public class Repository extends SQLiteOpenHelper {
                 null,
                 null,
                 null,
-                null);
+                ID + " DESC");
         List<Counter> list = new ArrayList<>(cursor.getColumnCount());
         while (cursor.moveToNext()) {
             long id = cursor.getLong(0);
