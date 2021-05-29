@@ -31,7 +31,7 @@ public class AddDialog extends AppCompatDialogFragment {
         builder.setTitle(R.string.add_counter);
         builder.setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss());
         builder.setPositiveButton(getString(R.string.add), (dialog, which) -> {
-            String inputName = editText.getText().toString();
+            String inputName = editText.getText().toString().trim();
             if (inputName.isEmpty()) {
                 inputName = getString(R.string.default_counter_name);
             }
