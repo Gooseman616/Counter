@@ -1,3 +1,4 @@
 # Counter
 
-Simple Android Counter app.
+Simple Android Counter app made by tutorials on YouTube. 
+Work in progress.
